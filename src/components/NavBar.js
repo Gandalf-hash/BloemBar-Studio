@@ -3,6 +3,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useLocomotiveScroll } from "react-locomotive-scroll";
+import { Link, useHistory } from "react-router-dom";
+
+
 
 const NavContainer = styled(motion.div)`
   width: 100vw;
@@ -17,7 +20,7 @@ const NavContainer = styled(motion.div)`
   transition: all 0.3s ease;
 
   @media (max-width: 40em) {
-  top: ${(props) => (props.click ? "0" : `calc(-50vh - 4rem)`)};
+    top: ${(props) => (props.click ? "0" : `calc(-50vh - 4rem)`)};
   }
 `;
 
@@ -39,9 +42,7 @@ const MenuItems = styled(motion.ul)`
     flex-direction: column;
     padding: 2rem 0;
     height: 50vh;
-    }
-
- 
+  }
 `;
 
 const MenuBtn = styled(motion.li)`
@@ -71,7 +72,7 @@ const MenuBtn = styled(motion.li)`
   @media (max-width: 40em) {
     width: 10rem;
     height: 2rem;
-    }
+  }
 `;
 
 const MenuItem = styled(motion.li)`
@@ -81,7 +82,7 @@ const MenuItem = styled(motion.li)`
   @media (max-width: 40em) {
     flex-direction: column;
     padding: 0.5rem 0;
-    }
+  }
 `;
 
 const NavBar = () => {
@@ -99,60 +100,81 @@ const NavBar = () => {
       easing: [0.25, 0.0, 0.35, 1.0],
     });
   };
+ 
+    // const history = useHistory();
+  
+    // const handleRegisterClick = (url) => {
+    //   history.push(url);
+    // };
+
+
   return (
-    <NavContainer
-      click={Boolean(click)}
-      initial={{
-        y: "-100%",
-      }}
-      animate={{
-        y: 0,
-      }}
-      transition={{
-        duration: 2,
-        delay: 5,
-      }}
-    >
-      <MenuItems
-        drag="y"
-        dragConstraints={{
-          top: 0,
-          bottom: 70,
+      <NavContainer
+        click={Boolean(click)}
+        initial={{
+          y: "-100%",
         }}
-        dragElastic={0.05}
-        dragSnapToOrigin
+        animate={{
+          y: 0,
+        }}
+        transition={{
+          duration: 2,
+          delay: 5,
+        }}
       >
-        <MenuBtn onClick={() => setClick(!click)}>Menu</MenuBtn>
-        <MenuItem
-          onClick={() => handleScroll("#home")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, Y: 0 }}
+        <MenuItems
+          drag="y"
+          dragConstraints={{
+            top: 0,
+            bottom: 70,
+          }}
+          dragElastic={0.05}
+          dragSnapToOrigin
         >
-          Home
-        </MenuItem>
-        <MenuItem
-          onClick={() => handleScroll(".about")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, Y: 0 }}
-        >
-          About
-        </MenuItem>
-        <MenuItem
-          onClick={() => handleScroll("#shop")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, Y: 0 }}
-        >
-          Shop
-        </MenuItem>
-        <MenuItem
-          onClick={() => handleScroll("#new-arrival")}
-          whileHover={{ scale: 1.1, y: -5 }}
-          whileTap={{ scale: 0.9, Y: 0 }}
-        >
-          New Arrival
-        </MenuItem>
-      </MenuItems>
-    </NavContainer>
+          <MenuBtn onClick={() => setClick(!click)}>Menu</MenuBtn>
+          <MenuItem
+            onClick={() => handleScroll("#home")}
+            whileHover={{ scale: 1.1, y: -5 }}
+            whileTap={{ scale: 0.9, Y: 0 }}
+          >
+            Home
+          </MenuItem>
+          <MenuItem
+            onClick={() => handleScroll(".about")}
+            whileHover={{ scale: 1.1, y: -5 }}
+            whileTap={{ scale: 0.9, Y: 0 }}
+          >
+            About
+          </MenuItem>
+          <MenuItem
+            onClick={() => handleScroll("#shop")}
+            whileHover={{ scale: 1.1, y: -5 }}
+            whileTap={{ scale: 0.9, Y: 0 }}
+          >
+            Shop
+          </MenuItem>
+          <MenuItem
+            onClick={() => handleScroll("#new-arrival")}
+            whileHover={{ scale: 1.1, y: -5 }}
+            whileTap={{ scale: 0.9, Y: 0 }}
+          >
+            New Arrival
+          </MenuItem>
+          <MenuItem
+            whileHover={{ scale: 1.1, y: -5 }}
+            whileTap={{ scale: 0.9, Y: 0 }}
+          >
+             <Link to="/survey">Survey</Link>
+          </MenuItem>
+          
+            <MenuItem
+              whileHover={{ scale: 1.1, y: -5 }}
+              whileTap={{ scale: 0.9, Y: 0 }}
+            >
+              <Link to="/register">Register</Link>
+            </MenuItem> 
+        </MenuItems>
+      </NavContainer>
   );
 };
 

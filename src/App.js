@@ -16,21 +16,29 @@ import Footer from "./section/Footer";
 import Loader from "./components/Loader";
 import { useState } from "react";
 import { useEffect } from "react";
+import RegisterPage from "./section/RegisterPage";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Survey from "./components/Survey";
+import SurveyTwo from "./components/SurveyTwo";
+import SurveyThree from "./components/SurveyThree";
+import GlobalStateProvider from "./section/GlobalState";
+import SurveyFour from "./components/SurveyFour";
+import LastSurvey from "./components/LastSurvey.";
 
 function App() {
   const containerRef = useRef(null);
 
-const [loaded, setLoaded] = useState();
+  const [loaded, setLoaded] = useState();
 
-useEffect(() => {
-  setTimeout(() => {
-    setLoaded(true);
-  }, 3000);
-}, [])
-
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 3000);
+  }, []);
 
   return (
     <>
+    
       <GlobalStyles />
 
       <ThemeProvider theme={dark}>
@@ -38,36 +46,49 @@ useEffect(() => {
           options={{
             smooth: true,
             // ... all available Locomotive Scroll instance options
-            smartphone:{
-              smooth: true
+            smartphone: {
+              smooth: true,
             },
-            tablet:{
-              smooth: true
-            }
+            tablet: {
+              smooth: true,
+            },
           }}
           watch={
             [
-              //..all the dependencies you want to watch to update the scroll.
-              //  Basically, you would want to watch page/location changes
-              //  For example, on Next.js you would want to watch properties like `router.asPath` (you may want to add more criterias if the instance should be update on locations with query parameters)
+              //..all the dependencies I want to watch to update the scroll.
+              //  Basically, I would want to watch page/location changes
+              //  For example, on Next.js I would want to watch properties like `router.asPath` (I may want to add more criterias if the instance should be update on locations with query parameters)
             ]
           }
           containerRef={containerRef}
         >
-          <AnimatePresence>
-          {loaded ? null : <Loader />}
-          </AnimatePresence>
+          <AnimatePresence>{loaded ? null : <Loader />}</AnimatePresence>
           <ScrollTriggerProxy />
-         <AnimatePresence>
-         <main className="App" data-scroll-container ref={containerRef}>
-            <Home />
-            <About />
-            <Shop />
-            <Banner />
-            <NewArrival />
-            <Footer />
-          </main>
-         </AnimatePresence>
+
+          <AnimatePresence>
+            <main className="App" data-scroll-container ref={containerRef}>
+              <BrowserRouter>
+              {/* I have imported "GlobalStateProvider" and wrapped the "Switch" component with it. 
+              Now the entire application can access the "selectedOption" state and "updateSelectedOption" function. */}
+              <GlobalStateProvider> 
+                <Switch>
+                  <Route path="/home" exact component={Home} />
+                  <Route path="/register" exact component={RegisterPage} />
+                  <Route path="/about" exact component={About}/>
+                  <Route path="/shop" exact component={Shop}/>
+                  <Route path="/banner" exact component={Banner}/>
+                  <Route path="/new-arrival" exact component={NewArrival} />
+                  <Route path="/footer" exact component={Footer} />
+                  <Route path="/survey" exact component={Survey}/>
+                  <Route path="/survey-two" exact component={SurveyTwo}/>
+                  <Route path="/survey-three" exact component={SurveyThree} />
+                  <Route path="/survey-four" exact component={SurveyFour} />
+                  <Route path="/last-survey" exact component={LastSurvey} />
+                </Switch>
+                </GlobalStateProvider>
+              </BrowserRouter>
+            </main>
+          </AnimatePresence>
         </LocomotiveScrollProvider>
       </ThemeProvider>
     </>
